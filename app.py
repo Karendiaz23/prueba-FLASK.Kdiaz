@@ -1,6 +1,29 @@
-from flask import Flask
+from flask import Flask , url_for
 
 app = Flask(__name__)
+
+@app.route("/")
+def main ():
+    return  ""
+    url_hola = url_for("hello")
+    url_dado = url_for("dado", caras =6)
+    url_logo = url_logo("static", filename ="gatito.jgp")
+
+
+
+    return f""
+
+    a href="{url_hola}">hola</a>
+    <br>
+    a href="{url_for("bye")}">chau</a>
+    <br>
+    a href ="{url_logo}">logo</a>
+    <br>
+    a href="{url_dado}">dado</a>
+
+    ""  
+
+
 
 @app.route("/")
 def hello_world():
