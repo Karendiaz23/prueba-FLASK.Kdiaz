@@ -1,6 +1,51 @@
 from flask import Flask , url_for
+import sqlite3 
+
 
 app = Flask(__name__)
+db =None
+
+
+def dict_factory(cursor, row):
+   """Arma un diccionario con los valores de la fila."""
+   fields = [column[0] for column in cursor.description]
+   return {key: value for key, value in zip(fields, row)}
+
+
+
+def abrirConexion():
+    return sqlite3.connect("instace/datos.sqlite") 
+    db.row_factory =dict_factory
+
+def cerrarConexion():
+  global db
+  db.close() 
+  db = None
+
+
+@app.route("/test-db")
+def testDB():
+    abrirConexion()
+    cursor = db.cursor()
+    res =cursor.execute("SELECT COUNT(*)AS cant from usuarios;")
+    res =cursor.fethome()
+    resgitros = res ["cant"]
+    cerrarConexion()
+    return f"hay{resgitros}registros en la tabla de usuarios"
+
+
+@app.route("testdb")
+def testdb():
+    return
+
+
+
+
+
+
+
+
+
 
 @app.route("/")
 def main ():
@@ -9,19 +54,17 @@ def main ():
     url_dado = url_for("dado", caras =6)
     url_logo = url_logo("static", filename ="gatito.jgp")
 
+    return f"""
 
-
-    return f""
-
-    a href="{url_hola}">hola</a>
+    <a href="{url_hola}">hola</a>
     <br>
-    a href="{url_for("bye")}">chau</a>
+    <a href="{url_for("bye")}">chau</a>
     <br>
-    a href ="{url_logo}">logo</a>
+    <a href ="{url_logo}">logo</a>
     <br>
-    a href="{url_dado}">dado</a>
+    <a href="{url_dado}">dado</a>
 
-    ""  
+    """
 
 
 
