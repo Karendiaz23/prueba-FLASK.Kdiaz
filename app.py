@@ -23,6 +23,26 @@ def cerrarConexion():
   db = None
 
 
+@app.route("/mostrar-datos-plantilla/<int:id>")
+def datos_plantilla(id):
+   AbrirConexion()
+   cursor = db.cursor()
+   cursor.execute("SELECT id, usuario, email, telefono, direccion FROM usuarios WHERE id = ?; ", (id,))
+   res = cursor.fetchone()
+   CerrarConexion
+   usuario = None
+   email = None
+   telefono = None
+   direccion = None
+   if res != None:
+       usuario = res['usuario']
+       email = res['email']
+       telefono = res['telefono']
+       direccion = res['direccion']
+   return render_template("datos.html", id=id, usuario=usuario, email=email, telefono=telefono, direccion=direccion)
+
+
+
 @app.route("/test-db")
 def testDB():
     abrirConexion()
@@ -37,14 +57,6 @@ def testDB():
 @app.route("testdb")
 def testdb():
     return
-
-
-
-
-
-
-
-
 
 
 @app.route("/")
@@ -65,7 +77,6 @@ def main ():
     <a href="{url_dado}">dado</a>
 
     """
-
 
 
 @app.route("/")
